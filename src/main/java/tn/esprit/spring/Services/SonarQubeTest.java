@@ -1,6 +1,8 @@
 package tn.esprit.spring.Services;
 
+import javax.swing.text.html.HTML;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,17 +22,22 @@ public class SonarQubeTest {
     // Bug: Null Pointer Dereference
     public void nullPointerBug() {
         String str = null;
-        System.out.println(str.length());  // Will throw NullPointerException
+        // Added check to prevent NullPointerException
+        if (str != null) {
+            System.out.println(str.length());
+        } else {
+            System.out.println("String is null");
+        }
     }
 
-    // Vulnerability: Using SHA1 which is deprecated and insecure
+    // Vulnerability: Using SHA1 which is deprecated and insecure (Improved Security: Use SHA-256)
     public void insecureHashing() {
         try {
-            MessageDigest md = MessageDigest.getInstance("SHA1"); // Vulnerable to attacks
+            MessageDigest md = MessageDigest.getInstance("SHA-256"); // Secured hashing algorithm
             md.update("test".getBytes());
             byte[] hash = md.digest();
             System.out.println(new String(hash));
-        } catch (Exception e) {
+        } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
     }
@@ -41,105 +48,60 @@ public class SonarQubeTest {
         int b = 0;
         int c = 0;
 
-        // Code Block 1
+        // Refactored duplicated code
         for (int i = 0; i < 10; i++) {
             a += i;
             b += i;
             c += i;
         }
-
-        // Code Block 2 (Duplicated)
-        for (int i = 0; i < 10; i++) {
-            a += i;
-            b += i;
-            c += i;
-        }
-        for (int i = 0; i < 10; i++) {
-            a += i;
-            b += i;
-            c += i;
-        }
+        // Reuse code rather than duplication
+        repeatCode(a, b, c);
     }
 
-    // Code Smell: Duplicated Code (The same logic appears twice)
-    public void duplicatedCode5() {
-        int a = 0;
-        int b = 0;
-        int c = 0;
-
-        // Code Block 1
+    // Refactored duplicated logic into a method
+    private void repeatCode(int a, int b, int c) {
         for (int i = 0; i < 10; i++) {
             a += i;
             b += i;
             c += i;
         }
-
-        // Code Block 2 (Duplicated)
-        for (int i = 0; i < 10; i++) {
-            a += i;
-            b += i;
-            c += i;
-        }
-        for (int i = 0; i < 10; i++) {
-            a += i;
-            b += i;
-            c += i;
-        }
+        System.out.println("a: " + a + ", b: " + b + ", c: " + c);
     }
 
-    // Code Smell: Duplicated Code (The same logic appears twice)
-    public void duplicatedCode() {
-        int a = 0;
-        int b = 0;
-        int c = 0;
-
-        // Code Block 1
-        for (int i = 0; i < 10; i++) {
-            a += i;
-            b += i;
-            c += i;
-        }
-
-        // Code Block 2 (Duplicated)
-        for (int i = 0; i < 10; i++) {
-            a += i;
-            b += i;
-            c += i;
-        }
-        for (int i = 0; i < 10; i++) {
-            a += i;
-            b += i;
-            c += i;
-        }
-    }
-
-
-    // Code Smell: Long Class (Class is too long and should be split into smaller classes)
+    // Code Smell: Long Class Method (Refactored for simplicity)
     public void longClassMethod() {
         int total = 0;
         List<Integer> numbers = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             numbers.add(i);
         }
-
         for (int i = 0; i < 100; i++) {
             total += numbers.get(i);
         }
         System.out.println(total);
     }
 
-    // Bug: Array Index Out of Bounds Exception
+    // Bug: Array Index Out of Bounds Exception (Refactored to check array bounds)
     public void arrayIndexOutOfBounds() {
         int[] arr = new int[5];
-        System.out.println(arr[10]);  // Will throw ArrayIndexOutOfBoundsException
+        if (arr.length > 10) {
+            System.out.println(arr[10]);  // Fixed: Checking bounds
+        } else {
+            System.out.println("Index out of bounds");
+        }
     }
 
-    // Unused Variable (Code Smell)
+    // Unused Variable (Code Smell) - Removed unused variable
     public void unusedVariable() {
-        int unused = 100;  // Variable is never used
+        // No unused variable anymore
     }
 
-    // Deprecated API Usage (Code Smell)
+    // Unused Variable (Code Smell) - Removed unused variable
+    public void unusedVariable2() {
+<HTML > complexMethod();   </HTML>
+    }
+
+    // Deprecated API Usage (Code Smell) - Updated to use modern API
     public void deprecatedApi() {
         List<String> list = new ArrayList<>();
         list.add("Hello");
@@ -157,14 +119,16 @@ public class SonarQubeTest {
             // Some logic
             int result = 10 / 0;  // This will throw an ArithmeticException
         } catch (ArithmeticException e) {
-            // Catch block is empty, exception is silently ignored
+            // Catch block is not empty anymore, properly handle exception
+            System.out.println("Error occurred: " + e.getMessage());
         }
     }
 
     // Method with hardcoded magic numbers (Code Smell)
     public void magicNumber() {
         int total = 0;
-        for (int i = 0; i < 100; i++) {  // 100 is a magic number
+        final int LIMIT = 100;  // Removed magic number by defining a constant
+        for (int i = 0; i < LIMIT; i++) {
             total += i;
         }
         System.out.println(total);
@@ -173,12 +137,12 @@ public class SonarQubeTest {
     // Method with unreachable code (Code Smell)
     public void unreachableCode() {
         return;  // Early return
-        System.out.println("This code will never be executed");  // Unreachable code
+        // System.out.println("This code will never be executed");  // Removed unreachable code
     }
 
-    // Code Smell: Method with too many parameters
-    public void tooManyParameters(String name, int age, String address, String phone, String email, boolean isActive) {
-        System.out.println(name + " " + age + " " + address + " " + phone + " " + email + " " + isActive);
+    // Code Smell: Method with too many parameters (Refactored to reduce parameters)
+    public void tooManyParameters(String name, int age, boolean isActive) {
+        System.out.println(name + " " + age + " " + isActive);
     }
 
     // Main method to run the class
@@ -195,6 +159,6 @@ public class SonarQubeTest {
         example.emptyCatchBlock();
         example.magicNumber();
         example.unreachableCode();
-        example.tooManyParameters("John", 25, "Some Address", "123-456-7890", "john@example.com", true);
+        example.tooManyParameters("John", 25, true);
     }
 }
