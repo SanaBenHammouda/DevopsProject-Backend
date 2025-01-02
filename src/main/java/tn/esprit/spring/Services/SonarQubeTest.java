@@ -238,7 +238,6 @@ public class SonarQubeTest {
 
     // Method with unreachable code (Code Smell)
     public void unreachableCode() {
-        return;  // Early return
         System.out.println("This code will never be executed");  // Unreachable code
     }
 
