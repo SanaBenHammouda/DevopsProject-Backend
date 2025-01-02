@@ -46,7 +46,7 @@ public class SonarQubeTest {
         System.out.println("Password: " + password);  // Logging sensitive data
     }
     // Empty catch block (ignoring exceptions)
-    public void emptyCatchBlock() {
+    private void emptyCatchBlock1() {
         try {
             int result = 10 / 0;  // Will throw ArithmeticException
         } catch (ArithmeticException e) {
@@ -102,7 +102,7 @@ public class SonarQubeTest {
     }
 
     // Code Smell: Duplicated Code (The same logic appears twice)
-    public void duplicatedCode() {
+    public void duplicatedCode1() {
         int a = 0;
         int b = 0;
         int c = 0;
