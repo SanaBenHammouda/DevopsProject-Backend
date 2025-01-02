@@ -1,8 +1,6 @@
 package tn.esprit.spring.Services;
 
-import javax.swing.text.html.HTML;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,26 +16,87 @@ public class SonarQubeTest {
         }
         System.out.println(result);
     }
+    public void secureHashing() {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256"); // Secure hashing algorithm
+            md.update("test".getBytes());
+            byte[] hash = md.digest();
+            System.out.println(new String(hash));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    // XSS vulnerability (no sanitization of user input)
+    public void xssRisk(String userInput) {
+        String htmlContent = "<div>" + userInput + "</div>";  // Dangerous if userInput contains script
+        System.out.println(htmlContent);
+    }
+    // Weak randomness (using Math.random())
+    public void weakRandomness() {
+        double randomValue = Math.random();  // Should use SecureRandom instead
+        System.out.println("Random Value: " + randomValue);
+    }
+    // Insecure network communication (HTTP instead of HTTPS)
+    public void insecureNetworkCommunication() {
+        String url = "http://example.com";  // HTTP is insecure, SonarQube should flag this
+        System.out.println("Sending data to: " + url);
+    }
+    // Sensitive data logging
+    public void sensitiveDataLogging(String password) {
+        System.out.println("Password: " + password);  // Logging sensitive data
+    }
+    // Empty catch block (ignoring exceptions)
+    public void emptyCatchBlock() {
+        try {
+            int result = 10 / 0;  // Will throw ArithmeticException
+        } catch (ArithmeticException e) {
+            // Exception is silently ignored without logging, making debugging difficult
+        }
+    }// SQL Injection Vulnerability
+    public void sqlInjectionRisk(String userInput) {
+        String query = "SELECT * FROM users WHERE username = '" + userInput + "'"; // No sanitization
+        // This will make the query vulnerable to SQL injection attacks
+        System.out.println(query);
+    }
+    // Insecure Hashing using SHA-1 (SonarQube should detect this)
+    public void insecureHashingNO() {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-1"); // Insecure hash function
+            md.update("test".getBytes());
+            byte[] hash = md.digest();
+            System.out.println(new String(hash));  // Vulnerable to attacks
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void secureHashinginsecure() {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-1"); // Secure hashing algorithm
+            md.update("test".getBytes());
+            byte[] hash = md.digest();
+            System.out.println(new String(hash));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     // Bug: Null Pointer Dereference
     public void nullPointerBug() {
         String str = null;
-        // Added check to prevent NullPointerException
-        if (str != null) {
-            System.out.println(str.length());
-        } else {
-            System.out.println("String is null");
-        }
+        System.out.println(str.length());  // Will throw NullPointerException
     }
 
-    // Vulnerability: Using SHA1 which is deprecated and insecure (Improved Security: Use SHA-256)
+    // Vulnerability: Using SHA1 which is deprecated and insecure
     public void insecureHashing() {
         try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256"); // Secured hashing algorithm
+            MessageDigest md = MessageDigest.getInstance("SHA1"); // Vulnerable to attacks
             md.update("test".getBytes());
             byte[] hash = md.digest();
             System.out.println(new String(hash));
-        } catch (NoSuchAlgorithmException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -48,60 +107,105 @@ public class SonarQubeTest {
         int b = 0;
         int c = 0;
 
-        // Refactored duplicated code
+        // Code Block 1
         for (int i = 0; i < 10; i++) {
             a += i;
             b += i;
             c += i;
         }
-        // Reuse code rather than duplication
-        repeatCode(a, b, c);
-    }
 
-    // Refactored duplicated logic into a method
-    private void repeatCode(int a, int b, int c) {
+        // Code Block 2 (Duplicated)
         for (int i = 0; i < 10; i++) {
             a += i;
             b += i;
             c += i;
         }
-        System.out.println("a: " + a + ", b: " + b + ", c: " + c);
+        for (int i = 0; i < 10; i++) {
+            a += i;
+            b += i;
+            c += i;
+        }
     }
 
-    // Code Smell: Long Class Method (Refactored for simplicity)
+    // Code Smell: Duplicated Code (The same logic appears twice)
+    public void duplicatedCode5() {
+        int a = 0;
+        int b = 0;
+        int c = 0;
+
+        // Code Block 1
+        for (int i = 0; i < 10; i++) {
+            a += i;
+            b += i;
+            c += i;
+        }
+
+        // Code Block 2 (Duplicated)
+        for (int i = 0; i < 10; i++) {
+            a += i;
+            b += i;
+            c += i;
+        }
+        for (int i = 0; i < 10; i++) {
+            a += i;
+            b += i;
+            c += i;
+        }
+    }
+
+    // Code Smell: Duplicated Code (The same logic appears twice)
+    public void duplicatedCode() {
+        int a = 0;
+        int b = 0;
+        int c = 0;
+
+        // Code Block 1
+        for (int i = 0; i < 10; i++) {
+            a += i;
+            b += i;
+            c += i;
+        }
+
+        // Code Block 2 (Duplicated)
+        for (int i = 0; i < 10; i++) {
+            a += i;
+            b += i;
+            c += i;
+        }
+        for (int i = 0; i < 10; i++) {
+            a += i;
+            b += i;
+            c += i;
+        }
+    }
+
+
+    // Code Smell: Long Class (Class is too long and should be split into smaller classes)
     public void longClassMethod() {
         int total = 0;
         List<Integer> numbers = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             numbers.add(i);
         }
+
         for (int i = 0; i < 100; i++) {
             total += numbers.get(i);
         }
         System.out.println(total);
     }
 
-    // Bug: Array Index Out of Bounds Exception (Refactored to check array bounds)
+    // Bug: Array Index Out of Bounds Exception
     public void arrayIndexOutOfBounds() {
         int[] arr = new int[5];
-        if (arr.length > 10) {
-            System.out.println(arr[10]);  // Fixed: Checking bounds
-        } else {
-            System.out.println("Index out of bounds");
-        }
+        System.out.println(arr[10]);  // Will throw ArrayIndexOutOfBoundsException
     }
 
-    // Unused Variable (Code Smell) - Removed unused variable
+    // Unused Variable (Code Smell)
     public void unusedVariable() {
-        // No unused variable anymore
+        int unused = 100;  // Variable is never used
     }
 
-    // Unused Variable (Code Smell) - Removed unused variable
-    public void unusedVariable2() {
-<HTML > complexMethod();   </HTML>
-    }
-
-    // Deprecated API Usage (Code Smell) - Updated to use modern API
+    // Deprecated API Usage (Code Smell)
     public void deprecatedApi() {
         List<String> list = new ArrayList<>();
         list.add("Hello");
@@ -119,16 +223,14 @@ public class SonarQubeTest {
             // Some logic
             int result = 10 / 0;  // This will throw an ArithmeticException
         } catch (ArithmeticException e) {
-            // Catch block is not empty anymore, properly handle exception
-            System.out.println("Error occurred: " + e.getMessage());
+            // Catch block is empty, exception is silently ignored
         }
     }
 
     // Method with hardcoded magic numbers (Code Smell)
     public void magicNumber() {
         int total = 0;
-        final int LIMIT = 100;  // Removed magic number by defining a constant
-        for (int i = 0; i < LIMIT; i++) {
+        for (int i = 0; i < 100; i++) {  // 100 is a magic number
             total += i;
         }
         System.out.println(total);
@@ -137,12 +239,12 @@ public class SonarQubeTest {
     // Method with unreachable code (Code Smell)
     public void unreachableCode() {
         return;  // Early return
-        // System.out.println("This code will never be executed");  // Removed unreachable code
+        System.out.println("This code will never be executed");  // Unreachable code
     }
 
-    // Code Smell: Method with too many parameters (Refactored to reduce parameters)
-    public void tooManyParameters(String name, int age, boolean isActive) {
-        System.out.println(name + " " + age + " " + isActive);
+    // Code Smell: Method with too many parameters
+    public void tooManyParameters(String name, int age, String address, String phone, String email, boolean isActive) {
+        System.out.println(name + " " + age + " " + address + " " + phone + " " + email + " " + isActive);
     }
 
     // Main method to run the class
@@ -159,6 +261,6 @@ public class SonarQubeTest {
         example.emptyCatchBlock();
         example.magicNumber();
         example.unreachableCode();
-        example.tooManyParameters("John", 25, true);
+        example.tooManyParameters("John", 25, "Some Address", "123-456-7890", "john@example.com", true);
     }
 }
