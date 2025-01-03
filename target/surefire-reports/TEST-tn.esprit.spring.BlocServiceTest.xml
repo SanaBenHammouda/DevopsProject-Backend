@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="tn.esprit.spring.ChambreServiceTest" time="1.817" tests="8" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="tn.esprit.spring.BlocServiceTest" time="8.05" tests="2" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -59,17 +59,6 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="testListeChambresParBloc" classname="tn.esprit.spring.ChambreServiceTest" time="1.758">
-    <system-out><![CDATA[10:44:30.486 [main] INFO tn.esprit.spring.Services.Chambre.ChambreService -- Bloc => BlocA ayant une capacité 100
-10:44:30.536 [main] INFO tn.esprit.spring.Services.Chambre.ChambreService -- Pas de chambre disponible dans ce bloc
-10:44:30.536 [main] INFO tn.esprit.spring.Services.Chambre.ChambreService -- ********************
-]]></system-out>
-  </testcase>
-  <testcase name="testFindAll" classname="tn.esprit.spring.ChambreServiceTest" time="0.008"/>
-  <testcase name="testAddOrUpdate" classname="tn.esprit.spring.ChambreServiceTest" time="0.007"/>
-  <testcase name="testGetChambresParNomBloc" classname="tn.esprit.spring.ChambreServiceTest" time="0.006"/>
-  <testcase name="testNbChambreParTypeEtBloc" classname="tn.esprit.spring.ChambreServiceTest" time="0.005"/>
-  <testcase name="testFindById" classname="tn.esprit.spring.ChambreServiceTest" time="0.006"/>
-  <testcase name="testDeleteById" classname="tn.esprit.spring.ChambreServiceTest" time="0.003"/>
-  <testcase name="testDelete" classname="tn.esprit.spring.ChambreServiceTest" time="0.005"/>
+  <testcase name="testFindAll" classname="tn.esprit.spring.BlocServiceTest" time="7.747"/>
+  <testcase name="testAddOrUpdate" classname="tn.esprit.spring.BlocServiceTest" time="0.05"/>
 </testsuite>
