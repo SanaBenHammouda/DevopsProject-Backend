@@ -15,7 +15,7 @@ services:
       - app-network
 
   app:
-    image: jobrane23/foyersspringboot:latest
+    image: bhsanaa2000/devops:latest
     container_name: app-container
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/mydb
